@@ -1,253 +1,475 @@
+xml
 <!doctype html>
 <html lang="it">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gioielli — Catalogo</title>
+<title>Catalogo</title>
+
 <style>
 :root{
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  color:#292724;
-  background:#f7f5f1;
+  --background:#f8f7f4;
+  --surface:#ffffff;
+  --text:#292724;
+  --muted:#625b53;
+  --line:#e5dfd6;
+  --accent:#433a31;
 }
-*{box-sizing:border-box}
-body{margin:0}
-button{font:inherit}
+
+*{
+  box-sizing:border-box;
+}
+
+[hidden]{
+  display:none !important;
+}
+
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,
+    "Segoe UI",sans-serif;
+  color:var(--text);
+  background:var(--background);
+}
+
+button,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+button:focus-visible,
+select:focus-visible,
+a:focus-visible{
+  outline:3px solid #a88a63;
+  outline-offset:4px;
+}
+
 header{
-  background:#f7f5f1;
-  border-bottom:1px solid #ddd7ce;
   position:sticky;
   top:0;
-  z-index:3;
+  z-index:10;
+  background:var(--background);
+  border-bottom:1px solid var(--line);
 }
+
 .head{
-  max-width:1080px;
+  max-width:1120px;
   margin:auto;
-  padding:15px 16px 11px;
+  padding:16px 20px;
 }
+
 .brand{
+  margin:0 0 14px;
   font-family:Georgia,serif;
-  font-size:25px;
-  letter-spacing:.04em;
-  margin:0 0 12px;
+  font-size:30px;
+  font-weight:400;
+  letter-spacing:.03em;
 }
+
 .controls{
   display:flex;
   gap:8px;
   overflow-x:auto;
-  padding-bottom:6px;
+  padding:3px 0 8px;
   scrollbar-width:thin;
 }
+
 .filter{
-  white-space:nowrap;
+  flex-shrink:0;
+  min-height:44px;
+  padding:10px 16px;
   border:1px solid #d3c9bc;
-  background:#fff;
-  color:#342d26;
   border-radius:100px;
-  padding:10px 14px;
-  min-height:44px;
-  cursor:pointer;
+  color:var(--accent);
+  background:var(--surface);
 }
+
 .filter[aria-pressed="true"]{
-  background:#373029;
   color:#fff;
-  border-color:#373029;
+  background:var(--accent);
+  border-color:var(--accent);
 }
+
+.filter:active,
+.more-control:active{
+  opacity:.75;
+}
+
+.material-row{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px 12px;
+  margin-top:6px;
+}
+
+.material-label{
+  font-size:13px;
+  color:var(--muted);
+}
+
 .material{
-  margin-top:8px;
   min-height:44px;
+  max-width:100%;
+  padding:8px 34px 8px 12px;
   border:1px solid #d3c9bc;
   border-radius:8px;
-  padding:0 12px;
-  background:#fff;
-  width:100%;
-  max-width:260px;
-  font:inherit;
-  color:#292724;
+  background:var(--surface);
+  color:var(--text);
 }
+
 main{
-  max-width:1080px;
+  max-width:1120px;
   margin:auto;
-  padding:22px 16px 80px;
+  padding:24px 20px 72px;
 }
+
 .status{
-  color:#685e53;
-  margin:0 0 18px;
+  margin:0 0 20px;
+  color:var(--muted);
+  font-size:14px;
 }
-.grid{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:30px;
+
+/* Un solo prodotto per riga, anche su computer. */
+.catalog{
+  display:flex;
+  flex-direction:column;
+  gap:36px;
 }
+
 .product{
-  background:#fff;
-  border:1px solid #e3ddd5;
   overflow:hidden;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:10px;
 }
+
 .info{
-  padding:19px 18px 21px;
+  padding:24px;
 }
+
 .eyebrow{
-  font-size:12px;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:#756b61;
+  font-size:13px;
+  line-height:1.5;
+  letter-spacing:.06em;
+  color:var(--muted);
+  overflow-wrap:anywhere;
 }
+
 .name{
+  margin:9px 0 12px;
   font-family:Georgia,serif;
-  font-size:24px;
+  font-size:28px;
   font-weight:400;
   line-height:1.2;
-  margin:8px 0;
 }
-.details{
-  color:#554d45;
-  line-height:1.55;
-  margin:0;
-}
+
+.details,
 .note{
-  margin:9px 0 0;
-  color:#554d45;
+  margin:0;
+  color:var(--muted);
+  line-height:1.6;
 }
-.photo{
-  width:100%;
-  aspect-ratio:1/1;
-  object-fit:contain;
+
+.note{
+  margin-top:8px;
+  white-space:pre-line;
+}
+
+/* Area fotografica bianca: nessuna fascia grigia. */
+.gallery-shell{
+  background:#fff;
+}
+
+.gallery-viewport{
+  overflow:hidden;
+}
+
+.gallery-track{
+  display:flex;
+  align-items:stretch;
+  transition:transform .3s ease;
+}
+
+.slide{
+  flex:0 0 50%;
+  min-width:0;
+  padding:0;
+  border:0;
+  margin:0;
+  background:#fff;
+}
+
+.slide:only-child{
+  flex-basis:100%;
+}
+
+.photo-button{
   display:block;
-  background:#f0ece6;
-  border-top:1px solid #eee8df;
-}
-.extra{
-  padding:14px 18px 18px;
-}
-.more{
-  min-height:44px;
-  padding:10px 14px;
-  background:#fff;
-  border:1px solid #aa9784;
-  border-radius:6px;
-  cursor:pointer;
-}
-.extras{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:8px;
-  margin-top:12px;
-}
-.extras img{
   width:100%;
-  aspect-ratio:1;
-  object-fit:contain;
-  background:#f0ece6;
-}
-.empty{
+  height:100%;
+  padding:0;
+  border:0;
   background:#fff;
-  border:1px solid #e3ddd5;
-  padding:30px 20px;
-  line-height:1.5;
-}
-.product img{
   cursor:zoom-in;
 }
-dialog{
-  border:0;
-  padding:0;
-  background:#171513;
-  color:white;
-  max-width:min(94vw,900px);
-  max-height:95vh;
+
+.photo{
+  display:block;
   width:100%;
+  height:auto;
+  aspect-ratio:1;
+  object-fit:contain;
+  background:#fff;
 }
+
+/* Una singola foto non diventa eccessivamente grande. */
+.slide:only-child .photo{
+  max-height:680px;
+}
+
+.gallery-controls{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:18px;
+  padding:16px;
+  background:#fff;
+}
+
+.more-control{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:48px;
+  height:48px;
+  padding:0;
+  border:1px solid #d3c9bc;
+  border-radius:50%;
+  background:#fff;
+  color:var(--accent);
+  font-size:25px;
+}
+
+.more-control:disabled{
+  opacity:.3;
+  cursor:default;
+}
+
+.gallery-count{
+  min-width:100px;
+  text-align:center;
+  font-size:14px;
+  color:var(--muted);
+}
+
+.empty{
+  margin:0;
+  padding:28px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#fff;
+  line-height:1.6;
+}
+
+/* Galleria ingrandita. */
+dialog{
+  width:min(94vw,1100px);
+  max-width:94vw;
+  max-height:94dvh;
+  margin:auto;
+  padding:0;
+  border:1px solid #ddd;
+  border-radius:10px;
+  background:#fff;
+  color:var(--text);
+}
+
 dialog::backdrop{
-  background:#000c;
+  background:rgba(0,0,0,.78);
 }
+
 .viewer{
   padding:12px;
 }
-.viewer img{
+
+.viewer-image{
   display:block;
-  max-width:100%;
-  max-height:75vh;
-  margin:auto;
+  width:100%;
+  height:72dvh;
   object-fit:contain;
+  background:#fff;
 }
+
+.viewer-error{
+  padding:40px 20px;
+  text-align:center;
+  color:var(--muted);
+}
+
 .viewerbar{
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
   gap:10px;
-  margin-top:10px;
+  padding-top:12px;
 }
+
 .viewerbar button{
+  min-width:48px;
+  min-height:48px;
+  padding:8px 14px;
+  border:1px solid #d3c9bc;
+  border-radius:8px;
   background:#fff;
-  color:#1b1715;
-  border:0;
-  border-radius:5px;
-  min-width:44px;
-  min-height:44px;
-  padding:8px 12px;
-  cursor:pointer;
+  color:var(--text);
 }
+
 .viewerbar button:disabled{
-  opacity:.4;
+  opacity:.3;
   cursor:default;
 }
-.viewerbar span{
+
+.viewer-counter{
   text-align:center;
+  color:var(--muted);
+  font-size:14px;
 }
-@media(min-width:720px){
-  .grid{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
+
+/* Smartphone: tutte le immagini in verticale. */
+@media(max-width:699px){
   .head{
-    padding-top:22px;
+    padding:12px 14px;
   }
-  .material{
-    margin-top:10px;
+
+  .brand{
+    font-size:26px;
+    margin-bottom:10px;
+  }
+
+  main{
+    padding:20px 12px 48px;
+  }
+
+  .catalog{
+    gap:28px;
+  }
+
+  .info{
+    padding:20px 18px;
+  }
+
+  .name{
+    font-size:25px;
+  }
+
+  .gallery-track{
+    display:block;
+    transform:none !important;
+    transition:none;
+  }
+
+  .slide{
+    width:100%;
+  }
+
+  .photo{
+    width:100%;
+    height:auto;
+    aspect-ratio:auto;
+    max-height:none;
+  }
+
+  .slide:only-child .photo{
+    max-height:none;
+  }
+
+  .gallery-controls{
+    display:none !important;
+  }
+
+  .viewer-image{
+    height:65dvh;
   }
 }
-@media(min-width:1100px){
-  .grid{
-    gap:24px;
+
+@media(prefers-reduced-motion:reduce){
+  .gallery-track{
+    transition:none;
   }
 }
 </style>
 </head>
+
 <body>
 
 <header>
   <div class="head">
-    <h1 class="brand">Gioielli</h1>
+    <h1 class="brand">Catalogo</h1>
 
-    <nav class="controls" aria-label="Filtra per tipo" id="filters"></nav>
+    <nav
+      id="filters"
+      class="controls"
+      aria-label="Filtra per tipo di gioiello"
+    ></nav>
 
-    <label for="material" class="eyebrow" style="display:block;margin-top:9px">
-      Materiale
-    </label>
-    <select class="material" id="material">
-      <option value="">Tutti i materiali</option>
-    </select>
+    <div class="material-row">
+      <label for="material" class="material-label">
+        Materiale
+      </label>
+
+      <select id="material" class="material">
+        <option value="">Tutti i materiali</option>
+      </select>
+    </div>
   </div>
 </header>
 
 <main>
-  <p id="status" class="status" role="status">Caricamento catalogo…</p>
-  <div id="grid" class="grid"></div>
+  <p id="status" class="status" role="status">
+    Caricamento catalogo…
+  </p>
+
+  <div id="catalog" class="catalog"></div>
 </main>
 
-<dialog id="dialog" aria-label="Galleria fotografica">
+<dialog id="dialog" aria-label="Fotografie del gioiello">
   <div class="viewer">
-    <img id="large" alt="">
+    <img id="large" class="viewer-image" alt="">
+
+    <p id="viewer-error" class="viewer-error" hidden>
+      Questa fotografia non è disponibile.
+    </p>
+
     <div class="viewerbar">
-      <button id="prev" type="button" aria-label="Foto precedente">‹</button>
-      <span id="counter"></span>
-      <button id="next" type="button" aria-label="Foto successiva">›</button>
-      <button id="close" type="button" aria-label="Chiudi galleria">✕</button>
+      <button
+        id="viewer-prev"
+        type="button"
+        aria-label="Fotografia precedente"
+      >←</button>
+
+      <span id="viewer-counter" class="viewer-counter"></span>
+
+      <button
+        id="viewer-next"
+        type="button"
+        aria-label="Fotografia successiva"
+      >→</button>
+
+      <button id="viewer-close" type="button">
+        Chiudi
+      </button>
     </div>
   </div>
 </dialog>
 
 <script>
+'use strict';
+
 const labels = {
   C:'Collane',
   B:'Bracciali',
@@ -255,223 +477,448 @@ const labels = {
   S:'Spille'
 };
 
-const grid = document.querySelector('#grid');
-const status = document.querySelector('#status');
+const catalog = document.querySelector('#catalog');
+const statusNode = document.querySelector('#status');
 const filters = document.querySelector('#filters');
 const material = document.querySelector('#material');
 
 const dialog = document.querySelector('#dialog');
 const large = document.querySelector('#large');
+const viewerError = document.querySelector('#viewer-error');
+const viewerPrev = document.querySelector('#viewer-prev');
+const viewerNext = document.querySelector('#viewer-next');
+const viewerCounter = document.querySelector('#viewer-counter');
+const viewerClose = document.querySelector('#viewer-close');
 
 let products = [];
-let kind = '';
-let gallery = [];
-let index = 0;
+let selectedKind = '';
 
-function el(tag, cls, text){
+let activeGallery = [];
+let activeIndex = 0;
+let activeName = '';
+
+function element(tag, className, text){
   const node = document.createElement(tag);
-  if(cls) node.className = cls;
-  if(text !== undefined) node.textContent = text;
+
+  if(className){
+    node.className = className;
+  }
+
+  if(text !== undefined){
+    node.textContent = text;
+  }
+
   return node;
 }
 
-function openGallery(images, start){
-  gallery = images;
-  index = start;
-  showImage();
-  dialog.showModal();
-}
+/*
+ * Ricava il blocco prezzo dal catalogo o dai nomi originali.
+ * Non richiede modifiche allo script Python.
+ */
+function originalPriceBlock(product){
+  const explicit = String(product.prezzo_codice || '');
 
-function showImage(){
-  const photo = gallery[index];
-  large.src = photo;
-  large.alt = `Foto ${index + 1} di ${gallery.length}`;
-  document.querySelector('#counter').textContent = `${index + 1} / ${gallery.length}`;
-  document.querySelector('#prev').disabled = index === 0;
-  document.querySelector('#next').disabled = index === gallery.length - 1;
-}
+  if(/^[0-9x]{8}$/i.test(explicit)){
+    return explicit;
+  }
 
-function photoNode(product, src, i, extra = false){
-  const image = el('img', extra ? '' : 'photo');
-  image.src = src;
-  image.alt = `${product.nome}, fotografia ${i + 1}`;
-  image.loading = 'lazy';
-  image.decoding = 'async';
-  image.width = 700;
-  image.height = 700;
-  image.tabIndex = 0;
-  image.setAttribute('role', 'button');
-  image.setAttribute('aria-label', `Apri la fotografia ${i + 1} di ${product.nome}`);
+  const idParts = String(product.id || '').split('-');
+  const fromId = idParts[4] || '';
 
-  const open = () => openGallery(product.foto, i);
+  if(/^[0-9x]{8}$/i.test(fromId)){
+    return fromId;
+  }
 
-  image.addEventListener('click', open);
-  image.addEventListener('keydown', event => {
-    if(event.key === 'Enter' || event.key === ' '){
-      event.preventDefault();
-      open();
+  const firstPhoto = (product.foto || [])[0];
+
+  if(firstPhoto){
+    const filename = String(firstPhoto)
+      .split('/')
+      .pop()
+      .split('?')[0];
+
+    const photoParts = filename.split('-');
+    const fromPhoto = photoParts[4] || '';
+
+    if(/^[0-9x]{8}$/i.test(fromPhoto)){
+      return fromPhoto;
     }
-  });
+  }
 
-  image.addEventListener('error', () => {
-    image.remove();
-    render();
-  }, { once:true });
-
-  return image;
+  return '';
 }
 
-function render(){
-  grid.replaceChildren();
+/*
+ * Esempio:
+ * 50268215 -> 026821 -> 26821
+ * codice visibile: C00002-78526821
+ */
+function displayCode(product){
+  const code = String(product.codice || '');
+  const block = originalPriceBlock(product);
 
-  const selected = products.filter(product =>
-    (!kind || product.tipo === kind) &&
-    (!material.value || product.materiale === material.value) &&
-    product.foto.length
+  if(/^[0-9]{8}$/.test(block)){
+    const cents = String(Number(block.slice(1, -1)));
+    return `${code}-785${cents}`;
+  }
+
+  /*
+   * Senza prezzo numerico, mantiene il codice semplice.
+   * Non inventa un importo per i prodotti con x.
+   */
+  return code;
+}
+
+function availablePhotos(product){
+  return product.foto.filter(
+    src => !product.failedPhotos.has(src)
   );
+}
 
-  status.textContent = `${selected.length} ${selected.length === 1 ? 'gioiello' : 'gioielli'}`;
+function openViewer(product, source){
+  activeGallery = availablePhotos(product);
+  activeIndex = activeGallery.indexOf(source);
+  activeName = product.nome || 'Gioiello';
 
-  if(!selected.length){
-    grid.append(el('p', 'empty',
-      products.length
-        ? 'Nessun gioiello per questi filtri. Prova un’altra selezione.'
-        : 'Nessun gioiello disponibile. Aggiungi foto e genera il catalogo.'
-    ));
+  if(activeIndex < 0 || !activeGallery.length){
     return;
   }
 
-  for(const product of selected){
-    const card = el('article', 'product');
-    const info = el('div', 'info');
+  updateViewer();
 
-    info.append(
-      el('div', 'eyebrow', `${labels[product.tipo] || 'Gioiello'} · ${product.codice}-${product.prezzo_codice}`),
-      el('h2', 'name', product.nome)
-    );
-
-    const details = [
-      product.materiale,
-      product.secondario && product.secondario !== '000' ? product.secondario : null,
-      product.chiusura && product.chiusura !== '000' ? `Chiusura: ${product.chiusura}` : null
-    ].filter(Boolean).join(' · ');
-
-    if(details){
-      info.append(el('p', 'details', details));
-    }
-
-    if(product.note){
-      info.append(el('p', 'note', product.note));
-    }
-
-    card.append(info);
-
-    product.foto.slice(0, 2).forEach((src, i) => {
-      card.append(photoNode(product, src, i));
-    });
-
-    if(product.foto.length > 2){
-      const more = el('div', 'extra');
-      const button = el('button', 'more', `Vedi altre foto (${product.foto.length - 2})`);
-      const extras = el('div', 'extras');
-
-      button.type = 'button';
-      button.setAttribute('aria-expanded', 'false');
-      extras.hidden = true;
-
-      button.addEventListener('click', () => {
-        extras.hidden = !extras.hidden;
-        button.setAttribute('aria-expanded', String(!extras.hidden));
-      });
-
-      product.foto.slice(2).forEach((src, i) => {
-        extras.append(photoNode(product, src, i + 2, true));
-      });
-
-      more.append(button, extras);
-      card.append(more);
-    }
-
-    grid.append(card);
+  if(!dialog.open){
+    dialog.showModal();
   }
 }
 
-function setup(){
-  filters.replaceChildren();
+function updateViewer(){
+  large.hidden = false;
+  viewerError.hidden = true;
 
-  for(const [value, label] of [['', 'Tutti'], ...Object.entries(labels)]){
-    const button = el('button', 'filter', label);
-    button.type = 'button';
-    button.setAttribute('aria-pressed', String(value === kind));
+  large.alt =
+    `${activeName}, fotografia ${activeIndex + 1}`;
 
-    button.onclick = () => {
-      kind = value;
-      filters.querySelectorAll('button').forEach(item => {
-        item.setAttribute('aria-pressed', String(item === button));
-      });
-      render();
-    };
+  large.src = activeGallery[activeIndex];
 
-    filters.append(button);
-  }
+  viewerCounter.textContent =
+    `${activeIndex + 1} / ${activeGallery.length}`;
 
-  const values = [...new Set(products.map(product => product.materiale).filter(Boolean))]
-    .sort((a, b) => a.localeCompare(b, 'it'));
-
-  for(const value of values){
-    const option = document.createElement('option');
-    option.value = value;
-    option.textContent = value;
-    material.append(option);
-  }
-
-  material.onchange = render;
-  render();
+  viewerPrev.disabled = activeIndex === 0;
+  viewerNext.disabled =
+    activeIndex === activeGallery.length - 1;
 }
 
-document.querySelector('#prev').onclick = () => {
-  if(index > 0){
-    index--;
-    showImage();
-  }
-};
+large.addEventListener('error', () => {
+  large.hidden = true;
+  viewerError.hidden = false;
+});
 
-document.querySelector('#next').onclick = () => {
-  if(index < gallery.length - 1){
-    index++;
-    showImage();
-  }
-};
-
-document.querySelector('#close').onclick = () => dialog.close();
-
-dialog.addEventListener('keydown', event => {
-  if(event.key === 'ArrowLeft' && index > 0){
-    index--;
-    showImage();
-  }
-  if(event.key === 'ArrowRight' && index < gallery.length - 1){
-    index++;
-    showImage();
+viewerPrev.addEventListener('click', () => {
+  if(activeIndex > 0){
+    activeIndex--;
+    updateViewer();
   }
 });
 
-fetch('./catalogo.json')
+viewerNext.addEventListener('click', () => {
+  if(activeIndex < activeGallery.length - 1){
+    activeIndex++;
+    updateViewer();
+  }
+});
+
+viewerClose.addEventListener('click', () => {
+  dialog.close();
+});
+
+dialog.addEventListener('keydown', event => {
+  if(event.key === 'ArrowLeft' && activeIndex > 0){
+    event.preventDefault();
+    activeIndex--;
+    updateViewer();
+  }
+
+  if(
+    event.key === 'ArrowRight' &&
+    activeIndex < activeGallery.length - 1
+  ){
+    event.preventDefault();
+    activeIndex++;
+    updateViewer();
+  }
+});
+
+function makeGallery(product){
+  const shell = element('div', 'gallery-shell');
+  const viewport = element('div', 'gallery-viewport');
+  const track = element('div', 'gallery-track');
+
+  const controls = element('div', 'gallery-controls');
+  const previous = element('button', 'more-control', '←');
+  const counter = element('span', 'gallery-count');
+  const next = element('button', 'more-control', '→');
+
+  previous.type = 'button';
+  next.type = 'button';
+
+  previous.setAttribute(
+    'aria-label',
+    `Foto precedenti di ${product.nome}`
+  );
+
+  next.setAttribute(
+    'aria-label',
+    `Foto successive di ${product.nome}`
+  );
+
+  counter.setAttribute('aria-live', 'polite');
+
+  let position = 0;
+
+  function updatePosition(){
+    const count = track.children.length;
+    const maximum = Math.max(0, count - 2);
+
+    position = Math.min(Math.max(position, 0), maximum);
+
+    track.style.transform =
+      `translateX(-${position * 50}%)`;
+
+    previous.disabled = position === 0;
+    next.disabled = position === maximum;
+
+    controls.hidden = count <= 2;
+
+    if(count){
+      counter.textContent =
+        `${position + 1}–${Math.min(position + 2, count)} / ${count}`;
+    }
+  }
+
+  previous.addEventListener('click', () => {
+    position--;
+    updatePosition();
+  });
+
+  next.addEventListener('click', () => {
+    position++;
+    updatePosition();
+  });
+
+  availablePhotos(product).forEach((source, index) => {
+    const slide = element('div', 'slide');
+    const button = element('button', 'photo-button');
+    const image = element('img', 'photo');
+
+    button.type = 'button';
+    button.setAttribute(
+      'aria-label',
+      `Ingrandisci la fotografia ${index + 1} di ${product.nome}`
+    );
+
+    image.alt =
+      `${product.nome}, fotografia ${index + 1}`;
+
+    image.loading = 'lazy';
+    image.decoding = 'async';
+    image.src = source;
+
+    button.addEventListener('click', () => {
+      openViewer(product, source);
+    });
+
+    image.addEventListener('error', () => {
+      product.failedPhotos.add(source);
+      slide.remove();
+      updatePosition();
+
+      if(!availablePhotos(product).length){
+        render();
+      }
+    }, {once:true});
+
+    button.append(image);
+    slide.append(button);
+    track.append(slide);
+  });
+
+  controls.append(previous, counter, next);
+  viewport.append(track);
+  shell.append(viewport, controls);
+
+  updatePosition();
+
+  return shell;
+}
+
+function render(){
+  catalog.replaceChildren();
+
+  const selected = products.filter(product => {
+    return (
+      (!selectedKind || product.tipo === selectedKind) &&
+      (!material.value || product.materiale === material.value) &&
+      availablePhotos(product).length > 0
+    );
+  });
+
+  statusNode.textContent =
+    `${selected.length} ${
+      selected.length === 1 ? 'gioiello' : 'gioielli'
+    }`;
+
+  if(!selected.length){
+    catalog.append(
+      element(
+        'p',
+        'empty',
+        products.length
+          ? 'Nessun gioiello disponibile per questi filtri.'
+          : 'Il catalogo non contiene ancora prodotti con fotografie.'
+      )
+    );
+
+    return;
+  }
+
+  selected.forEach(product => {
+    const card = element('article', 'product');
+    const info = element('div', 'info');
+
+    const heading = element(
+      'div',
+      'eyebrow',
+      `${labels[product.tipo] || 'Gioiello'} · ${displayCode(product)}`
+    );
+
+    const name = element(
+      'h2',
+      'name',
+      product.nome || 'Gioiello'
+    );
+
+    info.append(heading, name);
+
+    const details = [
+      product.materiale || '',
+      product.secondario && product.secondario !== '000'
+        ? product.secondario
+        : '',
+      product.chiusura && product.chiusura !== '000'
+        ? `Chiusura: ${product.chiusura}`
+        : ''
+    ].filter(Boolean).join(' · ');
+
+    if(details){
+      info.append(element('p', 'details', details));
+    }
+
+    if(product.note){
+      info.append(element('p', 'note', product.note));
+    }
+
+    card.append(info, makeGallery(product));
+    catalog.append(card);
+  });
+}
+
+function setupFilters(){
+  filters.replaceChildren();
+
+  const categories = [
+    ['', 'Tutti'],
+    ...Object.entries(labels)
+  ];
+
+  categories.forEach(([value, label]) => {
+    const button = element('button', 'filter', label);
+
+    button.type = 'button';
+    button.setAttribute(
+      'aria-pressed',
+      String(value === selectedKind)
+    );
+
+    button.addEventListener('click', () => {
+      selectedKind = value;
+
+      filters.querySelectorAll('button').forEach(item => {
+        item.setAttribute(
+          'aria-pressed',
+          String(item === button)
+        );
+      });
+
+      render();
+    });
+
+    filters.append(button);
+  });
+
+  material.replaceChildren();
+
+  const all = element('option', '', 'Tutti i materiali');
+  all.value = '';
+  material.append(all);
+
+  const materials = [
+    ...new Set(
+      products.map(product => product.materiale).filter(Boolean)
+    )
+  ].sort((a, b) => a.localeCompare(b, 'it'));
+
+  materials.forEach(value => {
+    const option = element('option', '', value);
+    option.value = value;
+    material.append(option);
+  });
+
+  material.addEventListener('change', render);
+}
+
+fetch('./catalogo.json', {cache:'no-cache'})
   .then(response => {
     if(!response.ok){
-      throw Error('catalogo.json non trovato');
+      throw new Error(
+        `catalogo.json non disponibile: HTTP ${response.status}`
+      );
     }
+
     return response.json();
   })
   .then(data => {
-    products = Array.isArray(data) ? data : [];
-    setup();
+    if(!Array.isArray(data)){
+      throw new Error('Formato del catalogo non valido');
+    }
+
+    products = data
+      .filter(product => product && typeof product === 'object')
+      .map(product => ({
+        ...product,
+        foto:Array.isArray(product.foto)
+          ? [...new Set(
+              product.foto.filter(
+                source => typeof source === 'string' && source
+              )
+            )]
+          : [],
+        failedPhotos:new Set()
+      }));
+
+    setupFilters();
+    render();
   })
   .catch(error => {
-    status.textContent = 'Impossibile caricare il catalogo.';
-    grid.replaceChildren(el('p', 'empty',
-      `${error.message}. Esegui genera_catalogo.py e pubblica anche catalogo.json.`
-    ));
+    statusNode.textContent =
+      'Impossibile caricare il catalogo.';
+
+    catalog.replaceChildren(
+      element(
+        'p',
+        'empty',
+        `${error.message}. Controlla che catalogo.json sia nella stessa cartella di index.html.`
+      )
+    );
   });
 </script>
 
