@@ -1,0 +1,136 @@
+[
+  {
+    "id": "C00002-TUR-000-CARG-50268215",
+    "tipo": "C",
+    "codice": "C00002",
+    "prezzo_codice": "50268215",
+    "nome": "Collana Turchese",
+    "materiale": "Turchese",
+    "secondario": "",
+    "chiusura": "Argento",
+    "prezzo": 268.21,
+    "scontato": null,
+    "note": "",
+    "foto": [
+      "foto/C00002-TUR-000-CARG-50268215-001.jpg",
+      "foto/C00002-TUR-000-CARG-50268215-002.jpg"
+    ]
+  },
+  {
+    "id": "C00003-TURARIZ-000-CARG-50142125",
+    "tipo": "C",
+    "codice": "C00003",
+    "prezzo_codice": "50142125",
+    "nome": "Collana Turchese dell’Arizona",
+    "materiale": "Turchese dell’Arizona",
+    "secondario": "",
+    "chiusura": "Argento",
+    "prezzo": 142.12,
+    "scontato": null,
+    "note": "",
+    "foto": [
+      "foto/C00003-TURARIZ-000-CARG-50142125-001.jpg",
+      "foto/C00003-TURARIZ-000-CARG-50142125-002.jpg",
+      "foto/C00003-TURARIZ-000-CARG-50142125-003.jpg"
+    ]
+  },
+  {
+    "id": "C00004-AMBCOL-000-CARG-50XXXXX5",
+    "tipo": "C",
+    "codice": "C00004",
+    "prezzo_codice": "50XXXXX5",
+    "nome": "Collana Ambra della Colombia",
+    "materiale": "Ambra della Colombia",
+    "secondario": "",
+    "chiusura": "Argento",
+    "prezzo": null,
+    "scontato": null,
+    "note": "",
+    "foto": [
+      "foto/C00004-AMBCOL-000-CARG-50xxxxx5-001.jpg",
+      "foto/C00004-AMBCOL-000-CARG-50xxxxx5-002.jpg"
+    ]
+  },
+  {
+    "id": "C00005-TUR-000-CARG-50118985",
+    "tipo": "C",
+    "codice": "C00005",
+    "prezzo_codice": "50118985",
+    "nome": "Collana Turchese",
+    "materiale": "Turchese",
+    "secondario": "",
+    "chiusura": "Argento",
+    "prezzo": 118.98,
+    "scontato": null,
+    "note": "",
+    "foto": [
+      "foto/C00005-TUR-000-CARG-50118985-001.jpg"
+    ]
+  },
+  {
+    "id": "C00006-CORSARD-000-CARG-50128105",
+    "tipo": "C",
+    "codice": "C00006",
+    "prezzo_codice": "50128105",
+    "nome": "Collana CORSARD",
+    "materiale": "CORSARD",
+    "secondario": "",
+    "chiusura": "Argento",
+    "prezzo": 128.1,
+    "scontato": null,
+    "note": "",
+    "foto": [
+      "foto/C00006-CORSARD-000-CARG-50128105-001.jpg"
+    ]
+  },
+  {
+    "id": "C00008-AGACOR-000-CARG-50178145",
+    "tipo": "C",
+    "codice": "C00008",
+    "prezzo_codice": "50178145",
+    "nome": "Collana AGACOR",
+    "materiale": "AGACOR",
+    "secondario": "",
+    "chiusura": "Argento",
+    "prezzo": 178.14,
+    "scontato": null,
+    "note": "",
+    "foto": [
+      "foto/C00008-AGACOR-000-CARG-50178145-001.jpg",
+      "foto/C00008-AGACOR-000-CARG-50178145-002.jpg"
+    ]
+  },
+  {
+    "id": "C00009-OLIV-000-CARG-50168135",
+    "tipo": "C",
+    "codice": "C00009",
+    "prezzo_codice": "50168135",
+    "nome": "Collana Olivina",
+    "materiale": "Olivina",
+    "secondario": "",
+    "chiusura": "Argento",
+    "prezzo": 168.13,
+    "scontato": null,
+    "note": "",
+    "foto": [
+      "foto/C00009-OLIV-000-CARG-50168135-001.jpg"
+    ]
+  },
+  {
+    "id": "C00011-LAPISAFG-000-CARG-50228205",
+    "tipo": "C",
+    "codice": "C00011",
+    "prezzo_codice": "50228205",
+    "nome": "Collana Lapislazzuli dell’Afghanistan",
+    "materiale": "Lapislazzuli dell’Afghanistan",
+    "secondario": "",
+    "chiusura": "Argento",
+    "prezzo": 228.2,
+    "scontato": null,
+    "note": "",
+    "foto": [
+      "foto/C00011-LAPISAFG-000-CARG-50228205-001.jpg",
+      "foto/C00011-LAPISAFG-000-CARG-50228205-002.jpg"
+    ]
+  }
+]

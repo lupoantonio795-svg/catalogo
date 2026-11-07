@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gioielli — Catalogo</title>
+<style>
+:root{
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:#292724;
+  background:#f7f5f1;
+}
+*{box-sizing:border-box}
+body{margin:0}
+button{font:inherit}
+header{
+  background:#f7f5f1;
+  border-bottom:1px solid #ddd7ce;
+  position:sticky;
+  top:0;
+  z-index:3;
+}
+.head{
+  max-width:1080px;
+  margin:auto;
+  padding:15px 16px 11px;
+}
+.brand{
+  font-family:Georgia,serif;
+  font-size:25px;
+  letter-spacing:.04em;
+  margin:0 0 12px;
+}
+.controls{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding-bottom:6px;
+  scrollbar-width:thin;
+}
+.filter{
+  white-space:nowrap;
+  border:1px solid #d3c9bc;
+  background:#fff;
+  color:#342d26;
+  border-radius:100px;
+  padding:10px 14px;
+  min-height:44px;
+  cursor:pointer;
+}
+.filter[aria-pressed="true"]{
+  background:#373029;
+  color:#fff;
+  border-color:#373029;
+}
+.material{
+  margin-top:8px;
+  min-height:44px;
+  border:1px solid #d3c9bc;
+  border-radius:8px;
+  padding:0 12px;
+  background:#fff;
+  width:100%;
+  max-width:260px;
+  font:inherit;
+  color:#292724;
+}
+main{
+  max-width:1080px;
+  margin:auto;
+  padding:22px 16px 80px;
+}
+.status{
+  color:#685e53;
+  margin:0 0 18px;
+}
+.grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:30px;
+}
+.product{
+  background:#fff;
+  border:1px solid #e3ddd5;
+  overflow:hidden;
+}
+.info{
+  padding:19px 18px 21px;
+}
+.eyebrow{
+  font-size:12px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#756b61;
+}
+.name{
+  font-family:Georgia,serif;
+  font-size:24px;
+  font-weight:400;
+  line-height:1.2;
+  margin:8px 0;
+}
+.details{
+  color:#554d45;
+  line-height:1.55;
+  margin:0;
+}
+.note{
+  margin:9px 0 0;
+  color:#554d45;
+}
+.photo{
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:contain;
+  display:block;
+  background:#f0ece6;
+  border-top:1px solid #eee8df;
+}
+.extra{
+  padding:14px 18px 18px;
+}
+.more{
+  min-height:44px;
+  padding:10px 14px;
+  background:#fff;
+  border:1px solid #aa9784;
+  border-radius:6px;
+  cursor:pointer;
+}
+.extras{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  margin-top:12px;
+}
+.extras img{
+  width:100%;
+  aspect-ratio:1;
+  object-fit:contain;
+  background:#f0ece6;
+}
+.empty{
+  background:#fff;
+  border:1px solid #e3ddd5;
+  padding:30px 20px;
+  line-height:1.5;
+}
+.product img{
+  cursor:zoom-in;
+}
+dialog{
+  border:0;
+  padding:0;
+  background:#171513;
+  color:white;
+  max-width:min(94vw,900px);
+  max-height:95vh;
+  width:100%;
+}
+dialog::backdrop{
+  background:#000c;
+}
+.viewer{
+  padding:12px;
+}
+.viewer img{
+  display:block;
+  max-width:100%;
+  max-height:75vh;
+  margin:auto;
+  object-fit:contain;
+}
+.viewerbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-top:10px;
+}
+.viewerbar button{
+  background:#fff;
+  color:#1b1715;
+  border:0;
+  border-radius:5px;
+  min-width:44px;
+  min-height:44px;
+  padding:8px 12px;
+  cursor:pointer;
+}
+.viewerbar button:disabled{
+  opacity:.4;
+  cursor:default;
+}
+.viewerbar span{
+  text-align:center;
+}
+@media(min-width:720px){
+  .grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .head{
+    padding-top:22px;
+  }
+  .material{
+    margin-top:10px;
+  }
+}
+@media(min-width:1100px){
+  .grid{
+    gap:24px;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head">
+    <h1 class="brand">Gioielli</h1>
+
+    <nav class="controls" aria-label="Filtra per tipo" id="filters"></nav>
+
+    <label for="material" class="eyebrow" style="display:block;margin-top:9px">
+      Materiale
+    </label>
+    <select class="material" id="material">
+      <option value="">Tutti i materiali</option>
+    </select>
+  </div>
+</header>
+
+<main>
+  <p id="status" class="status" role="status">Caricamento catalogo…</p>
+  <div id="grid" class="grid"></div>
+</main>
+
+<dialog id="dialog" aria-label="Galleria fotografica">
+  <div class="viewer">
+    <img id="large" alt="">
+    <div class="viewerbar">
+      <button id="prev" type="button" aria-label="Foto precedente">‹</button>
+      <span id="counter"></span>
+      <button id="next" type="button" aria-label="Foto successiva">›</button>
+      <button id="close" type="button" aria-label="Chiudi galleria">✕</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+const labels = {
+  C:'Collane',
+  B:'Bracciali',
+  O:'Orecchini',
+  S:'Spille'
+};
+
+const grid = document.querySelector('#grid');
+const status = document.querySelector('#status');
+const filters = document.querySelector('#filters');
+const material = document.querySelector('#material');
+
+const dialog = document.querySelector('#dialog');
+const large = document.querySelector('#large');
+
+let products = [];
+let kind = '';
+let gallery = [];
+let index = 0;
+
+function el(tag, cls, text){
+  const node = document.createElement(tag);
+  if(cls) node.className = cls;
+  if(text !== undefined) node.textContent = text;
+  return node;
+}
+
+function openGallery(images, start){
+  gallery = images;
+  index = start;
+  showImage();
+  dialog.showModal();
+}
+
+function showImage(){
+  const photo = gallery[index];
+  large.src = photo;
+  large.alt = `Foto ${index + 1} di ${gallery.length}`;
+  document.querySelector('#counter').textContent = `${index + 1} / ${gallery.length}`;
+  document.querySelector('#prev').disabled = index === 0;
+  document.querySelector('#next').disabled = index === gallery.length - 1;
+}
+
+function photoNode(product, src, i, extra = false){
+  const image = el('img', extra ? '' : 'photo');
+  image.src = src;
+  image.alt = `${product.nome}, fotografia ${i + 1}`;
+  image.loading = 'lazy';
+  image.decoding = 'async';
+  image.width = 700;
+  image.height = 700;
+  image.tabIndex = 0;
+  image.setAttribute('role', 'button');
+  image.setAttribute('aria-label', `Apri la fotografia ${i + 1} di ${product.nome}`);
+
+  const open = () => openGallery(product.foto, i);
+
+  image.addEventListener('click', open);
+  image.addEventListener('keydown', event => {
+    if(event.key === 'Enter' || event.key === ' '){
+      event.preventDefault();
+      open();
+    }
+  });
+
+  image.addEventListener('error', () => {
+    image.remove();
+    render();
+  }, { once:true });
+
+  return image;
+}
+
+function render(){
+  grid.replaceChildren();
+
+  const selected = products.filter(product =>
+    (!kind || product.tipo === kind) &&
+    (!material.value || product.materiale === material.value) &&
+    product.foto.length
+  );
+
+  status.textContent = `${selected.length} ${selected.length === 1 ? 'gioiello' : 'gioielli'}`;
+
+  if(!selected.length){
+    grid.append(el('p', 'empty',
+      products.length
+        ? 'Nessun gioiello per questi filtri. Prova un’altra selezione.'
+        : 'Nessun gioiello disponibile. Aggiungi foto e genera il catalogo.'
+    ));
+    return;
+  }
+
+  for(const product of selected){
+    const card = el('article', 'product');
+    const info = el('div', 'info');
+
+    info.append(
+      el('div', 'eyebrow', `${labels[product.tipo] || 'Gioiello'} · ${product.codice}-${product.prezzo_codice}`),
+      el('h2', 'name', product.nome)
+    );
+
+    const details = [
+      product.materiale,
+      product.secondario && product.secondario !== '000' ? product.secondario : null,
+      product.chiusura && product.chiusura !== '000' ? `Chiusura: ${product.chiusura}` : null
+    ].filter(Boolean).join(' · ');
+
+    if(details){
+      info.append(el('p', 'details', details));
+    }
+
+    if(product.note){
+      info.append(el('p', 'note', product.note));
+    }
+
+    card.append(info);
+
+    product.foto.slice(0, 2).forEach((src, i) => {
+      card.append(photoNode(product, src, i));
+    });
+
+    if(product.foto.length > 2){
+      const more = el('div', 'extra');
+      const button = el('button', 'more', `Vedi altre foto (${product.foto.length - 2})`);
+      const extras = el('div', 'extras');
+
+      button.type = 'button';
+      button.setAttribute('aria-expanded', 'false');
+      extras.hidden = true;
+
+      button.addEventListener('click', () => {
+        extras.hidden = !extras.hidden;
+        button.setAttribute('aria-expanded', String(!extras.hidden));
+      });
+
+      product.foto.slice(2).forEach((src, i) => {
+        extras.append(photoNode(product, src, i + 2, true));
+      });
+
+      more.append(button, extras);
+      card.append(more);
+    }
+
+    grid.append(card);
+  }
+}
+
+function setup(){
+  filters.replaceChildren();
+
+  for(const [value, label] of [['', 'Tutti'], ...Object.entries(labels)]){
+    const button = el('button', 'filter', label);
+    button.type = 'button';
+    button.setAttribute('aria-pressed', String(value === kind));
+
+    button.onclick = () => {
+      kind = value;
+      filters.querySelectorAll('button').forEach(item => {
+        item.setAttribute('aria-pressed', String(item === button));
+      });
+      render();
+    };
+
+    filters.append(button);
+  }
+
+  const values = [...new Set(products.map(product => product.materiale).filter(Boolean))]
+    .sort((a, b) => a.localeCompare(b, 'it'));
+
+  for(const value of values){
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = value;
+    material.append(option);
+  }
+
+  material.onchange = render;
+  render();
+}
+
+document.querySelector('#prev').onclick = () => {
+  if(index > 0){
+    index--;
+    showImage();
+  }
+};
+
+document.querySelector('#next').onclick = () => {
+  if(index < gallery.length - 1){
+    index++;
+    showImage();
+  }
+};
+
+document.querySelector('#close').onclick = () => dialog.close();
+
+dialog.addEventListener('keydown', event => {
+  if(event.key === 'ArrowLeft' && index > 0){
+    index--;
+    showImage();
+  }
+  if(event.key === 'ArrowRight' && index < gallery.length - 1){
+    index++;
+    showImage();
+  }
+});
+
+fetch('./catalogo.json')
+  .then(response => {
+    if(!response.ok){
+      throw Error('catalogo.json non trovato');
+    }
+    return response.json();
+  })
+  .then(data => {
+    products = Array.isArray(data) ? data : [];
+    setup();
+  })
+  .catch(error => {
+    status.textContent = 'Impossibile caricare il catalogo.';
+    grid.replaceChildren(el('p', 'empty',
+      `${error.message}. Esegui genera_catalogo.py e pubblica anche catalogo.json.`
+    ));
+  });
+</script>
+
+</body>
+</html>
